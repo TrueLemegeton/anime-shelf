@@ -3,30 +3,17 @@ from time import sleep
 
 
 HEADERS = {"User-Agent": "anime-shelf/0.1 (contact: lemegeton.work@gmail.com)"}
+url = "https://shikimori.io/api/animes"
 
-for anime_id in range(20):
+params = {'search': 'причина п', 'limit': 5}
+response = httpx.get(url=url, params=params, headers=HEADERS, timeout=10)
 
-    response = httpx.get(f'https://shikimori.io/api/animes/{anime_id}', headers=HEADERS, timeout=10)
-    print(f'Статус: {response.status_code}')
-    
-    if response.status_code != 200:
-        print('\n===========================')
-        print(f'Аниме с id = {anime_id} не было найдено в API.')
-        sleep(1)
-        continue
-    
-
-    anime_data = response.json()
-    
-    print('\n===========================')
-    print(f'id: {anime_data['id']}')
-    print(f'name: {anime_data['name']}')
-    print(f'kind {anime_data['kind']}')
-    print(f'status: {anime_data['status']}')
-    print(f'episodes: {anime_data['episodes']}')
-    print(f'score: {anime_data['score']}')
-      
-    sleep(1)
-
-
-
+animes = response.json()
+for anime in animes:
+    print('\n<----------------------------------->')
+    print(f'id: {anime['id']}')
+    print(f'name: {anime['name']}')
+    print(f'kind {anime['kind']}')
+    print(f'status: {anime['status']}')
+    print(f'episodes: {anime['episodes']}')
+    print(f'score: {anime['score']}')
